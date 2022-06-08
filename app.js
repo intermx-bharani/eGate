@@ -4,6 +4,7 @@ const database = require("./config/mongo");
 const dotenv = require('dotenv')
 const bodyparser = require("body-parser");
 
+
 const app = express();
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
@@ -18,6 +19,7 @@ app.get('/', function(req, res, next) {
   res.send('Home page');
 });
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000
+app.listen(port, () => {
     console.log("http://localhost:3000");
   });
