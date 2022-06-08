@@ -9,6 +9,10 @@ const database = mongoose.connect("mongodb://localhost:27017/eGate",
 
 }
 );
+
+if (process.env.NODE_ENV === 'production') {
+    database = process.env.MONGOLAB_URI;
+}
 const db = mongoose.connection;
 db.on("error",console.error.bind(console,"connection error:"));
 db.once("open", function() {
