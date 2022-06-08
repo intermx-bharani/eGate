@@ -55,7 +55,7 @@ const createUser = async (req,res) => {
 
 const userList = async (req,res) => {
     try{
-        let result = await employee.find({status: true})
+        let result =  await employee.find({status: true})
         successHandler(req, res, { data: result, message: 'view the all user'})
     }
     catch(err){
@@ -123,22 +123,21 @@ const updateUser = async (req,res) =>{
 
 const searchUser =async (req,res) => {
     try{
-        const data =req.body
-        console.log(data
-            )
+        const id =req.params.id
+        console.log(id)
         let result = await employee.find(
             {
                 $or: [
 
-                    {firstName: {$regex: data}},
-                    {email: {$regex: data}},
-                    {contactNo: {$regex: data}},
+                    {firstName: {$regex: id}},
+                    {email: {$regex: id}},
+                    {contactNo: {$regex: id}},
                 ],
             },
             console.log(data)
         
         )
-        successHandler(req, res, { Employee: result, message: 'search'})
+        successHandler(req, res, { data: result, message: 'search'})
     }
     catch(err){
         errorHandler(req, res, err, 500)

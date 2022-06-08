@@ -134,6 +134,35 @@ const getVisitor = async (req,res) => {
         errorHandler(req,res,err,500);
     }
 }
+
+//update
+const updateVisitor = async (req,res) =>{
+    console.log("update")
+        try{
+            const id =req.body._id;
+            console.log(id)
+            let result = await visitor.updateOne({_id:id},req.body)
+            successHandler(req, res, { Employee: result, message: 'update'})
+        }
+        catch(err){
+            errorHandler(req, res, err, 500)
+        }
+    }
+
+
+//delete
+
+const deleteVisitor = async (req,res) => {
+    try{
+        const id =req.params.id;
+        // const userId = req.params.userId;
+        let result = await visitor.findByIdAndDelete({_id: id})
+        successHandler(req, res, { Employee: result, message: 'delete the user'})
+    }
+    catch(err){
+        errorHandler(req, res, err, 500)
+    }
+}
 module.exports = {
-    createVisitor,visitorList,getVisitor,join
+    createVisitor,visitorList,getVisitor,join,deleteVisitor,updateVisitor
 }

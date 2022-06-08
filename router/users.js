@@ -32,7 +32,7 @@ router.patch('/inActive/:id',controller.inActive)
 router.put('/view/update/:id',controller.updateUser)
 
 //search
-router.get('/search',controller.searchUser)
+router.get('/search/:name',controller.searchUser)
 
 
 
