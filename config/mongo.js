@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { employee } = require('../models/empSchema');
 const { role } = require('../models/roles');
 
-const database = mongoose.connect("mongodb://localhost:27017/eGate",
+var database = mongoose.connect("mongodb://localhost:27017/eGate",
 
 {
     useNewUrlParser: true,
