@@ -7,14 +7,15 @@ const lib = require ("../controller/visitorController")
 const { errorHandler, successHandler } = require('./../helper/handlers');
 const { db } = require("../models/empSchema");
 
-create
+// create
 const createVisitor = async (req,res) => {
     try{
         const Employee = new employee();
         const Vehicle = new vehicle();
         const Visitor = new visitor();
         const Product = new product();
-
+        // let k = Employee.save()
+        // console.log(k)
 
         // Vehicle.vehicleNumber = req.body.vehicleNumber;
         // Vehicle.vehicleType = req.body.vehicleType;
@@ -47,14 +48,14 @@ const createVisitor = async (req,res) => {
         Visitor.visitTo = Employee._id;
         Visitor.purpose = req.body.purpose;
         Visitor.approvedBy = Employee._id;
-        Visitor.vehicleId = lib._id;
+        Visitor.vehicleId = Vehicle._id;
         // Visitor.visitorIDPhoto = req.body.visitorIDPhoto;
         // console.log(visitorIDPhoto)
         Visitor.createdBy = Employee._id;
         Visitor.updatedBy = Employee._id;
         Visitor.productDetails = Product._id;
-
         let result = await Visitor.save()
+        console.log(result)
         successHandler(req, res, { data: result, message: 'user creation success'})
 
     }
@@ -134,5 +135,5 @@ const getVisitor = async (req,res) => {
     }
 }
 module.exports = {
-    visitorList,getVisitor,join,visitors
+    createVisitor,visitorList,getVisitor,join
 }

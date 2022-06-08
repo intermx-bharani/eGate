@@ -20,7 +20,9 @@
     "mongoose": "^6.3.4",
     "mongoosejs-soft-delete": "^1.0.2",
     "nodemailer": "^6.7.5",
-    "nodemon": "^2.0.16",
     "soft-delete-plugin-mongoose": "^1.0.15"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }
