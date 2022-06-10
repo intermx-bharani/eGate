@@ -6,9 +6,10 @@ const router = express.Router();
 // const { required } = require("nodemon/lib/config");
 
 const { controller } = require('./../controller')
+const auth = require('../authenticate')
 
 //create
-router.post('/', controller.createUser)
+router.post('/',auth.authenticateToken, controller.createUser)
 
 //list
 router.get('/list',controller.userList)
@@ -32,7 +33,7 @@ router.patch('/inActive/:id',controller.inActive)
 router.put('/view/update/:id',controller.updateUser)
 
 //search
-router.get('/search/:name',controller.searchUser)
+router.post('/search',controller.searchUser)
 
 
 

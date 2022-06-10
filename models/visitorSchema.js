@@ -39,8 +39,7 @@ var visitorSchema  = new mongoose.Schema({
         ref: 'empDetails' 
     },
     vehicleId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'vehicle'
+        type: mongoose.Schema.Types.ObjectId
     },
     visitorIDPhoto:{
         type: String
@@ -55,6 +54,10 @@ var visitorSchema  = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'product'
     },
+    empId:{
+        type: mongoose.Schema.Types.ObjectId
+    },
+
 },{timestamps: true});
 
 module.exports = mongoose.model("visitor", visitorSchema);

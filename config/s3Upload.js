@@ -11,7 +11,7 @@ const uploadFile =  (image) => {
       });
   
       const bucketName = process.env.S3_BUCKET_NAME;
-     let bucketPath =' buddies-2022-projects/egate/'
+     let bucketPath ='buddies-2022-projects/egate/'
 
       let params = {
         Bucket: bucketName,
@@ -26,7 +26,7 @@ const uploadFile =  (image) => {
         }
       });
     };
-    uploadFile(image,'home/downloads/dog.jpg')
+    uploadFile('home/downloads/dog.jpg')
   
 module.exports = {uploadFile}
 

@@ -19,7 +19,6 @@ var empSchema = new mongoose.Schema({
     },
     role: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'role'
     },
     department: {
         type: String,
@@ -35,7 +34,7 @@ var empSchema = new mongoose.Schema({
     },
     employeeImage: {
         type: String,
-    }
+    },
 
 },{timestamps: true});
 

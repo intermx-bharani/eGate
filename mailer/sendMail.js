@@ -3,7 +3,7 @@ const nodeMailer = require("nodemailer");
 
 require("dotenv").config();
 
-const sendMail = async (email) => {
+const sendMail = async (email,pwd) => {
     const send = nodeMailer.createTransport({
         service: "Gmail",
         auth:{
@@ -11,12 +11,6 @@ const sendMail = async (email) => {
             pass: process.env.EMAIL_PASSWORD, 
         }
     });
-
-    var pwd = generator.generate({
-        length: 8,
-        numbers: true,
-        unique: true
-    })
 
     send.sendMail({
         to:email,

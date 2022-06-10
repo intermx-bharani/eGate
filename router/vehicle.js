@@ -4,6 +4,16 @@ const router = express.Router();
 const { controller } = require('./../controller')
 
 //create
-router.post('/:id', controller.createVehicle)
+router.post('/', controller.createVehicle)
+
+// join
+router.post('/join',controller.join)
+
+
+// vehicleList
+router.get('/list',controller.vehicleList)
+
+// view
+router.get('/view/:id',controller.getvehicle)
 
 module.exports = router;

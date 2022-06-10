@@ -41,8 +41,9 @@ const createUser = async (req,res) => {
         Employee.address = req.body.address;
         Employee.contactNo = req.body.contactNo;
         Employee.employeeImage = req.body.employeeImage;
+        Employee.visitorId= req.body.visitorId;
         
-        sendMail.sendMail(Employee.email);
+        sendMail.sendMail(Employee.email,pwd);
         let result = await Employee.save()
         successHandler(req, res, { data: result, message: 'user creation success'})
     }
@@ -96,6 +97,7 @@ const inActive = async (req,res) => {
         const id = req.params.id;
         console.log(id)
         let result = await employee.findByIdAndUpdate(id, {"$set": {"status" : false} })
+        // let result = await employee.updateOne(id, {status : false} )
         successHandler(req, res, { Employee: result, message: 'soft delete'})
         // nxt()
     }
@@ -123,18 +125,19 @@ const updateUser = async (req,res) =>{
 
 const searchUser =async (req,res) => {
     try{
-        const id =req.params.id
-        console.log(id)
+        const data =req.body
+        // console.log(id)
         let result = await employee.find(
             {
                 $or: [
 
-                    {firstName: {$regex: id}},
-                    {email: {$regex: id}},
-                    {contactNo: {$regex: id}},
+                    {firstName: { $regex: `${data}` }},
+                    {email: { $regex: `${data}` }},
+                    // {contactNo: { $in: `${data}` }},
                 ],
             },
-            console.log(data)
+        // console.log(data)
+           
         
         )
         successHandler(req, res, { data: result, message: 'search'})

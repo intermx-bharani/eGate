@@ -12,8 +12,10 @@ router.get('/lists',controller.visitorList)
 //view details
 router.get('/view/:id',controller.getVisitor)
 
-//join
-// router.post('/visitors',controller.visitors)
-// router.post('/visitor/:id',controller.join)
+// join
+router.post('/join',controller.join)
+
+//update
+router.put('/update/:id',controller.updateVisitor)
 
 module.exports = router;

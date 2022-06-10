@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
 var vehicleSchema  = new mongoose.Schema({
-    visitorId:{
-        type: mongoose.Schema.Types.ObjectId
-        // ref: 'visitor'
-    },
     vehicleNumber:{
         type: String
     },
@@ -24,7 +20,9 @@ var vehicleSchema  = new mongoose.Schema({
     },
     approvedBy:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'empDetails'
+    },
+    empId:{
+        type: mongoose.Schema.Types.ObjectId
     },
 },{timestamps: true});
 

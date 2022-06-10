@@ -12,18 +12,41 @@ const createVehicle = async (req,res) => {
         const Vehicle = new vehicle();
         // const Visitor = new visitor();
         // const Product = new product();
-
-        Vehicle.visitorId= req.params.visitorId;
+        console.log('kaviya')
+        // Vehicle.visitorId= req.body.visitorId;
         Vehicle.vehicleNumber = req.body.vehicleNumber;
         Vehicle.vehicleType = req.body.vehicleType;
         Vehicle.vehiclePhoto = req.body.vehiclePhoto;
         Vehicle.authorizedPerson = req.body.authorizedPerson;
-        Vehicle.createdBy = req.body.createdBy;
-        Vehicle.updatedBy = req.body.updatedBy;
-        Vehicle.approvedBy = Employee._id;
+        Vehicle.createdBy = req.body.empId;
+        Vehicle.updatedBy = req.body.empId;
+        Vehicle.approvedBy = req.body.empId;
+        Vehicle.empId = req.body.empId;
         // Vehicle.save()
         let result = await Vehicle.save()
         successHandler(req, res, { data: result, message: 'user creation success'})
+
+    }
+    catch(err){
+        errorHandler(req, res, err, 500);
+    }
+}
+
+const join = async (req,res) => {
+    try{
+        let result = await vehicle.aggregate([
+            {
+                $lookup:{
+                    from:"empdetails",
+                    localField:"empId",
+                    foreignField:"_id",
+                    as:"employeeDetails",
+                },
+            },{
+                $unwind: '$employeeDetails'
+            },
+        ])
+        successHandler(req, res, { data: result, message: 'join'})
 
     }
     catch(err){
@@ -86,4 +109,4 @@ const deleteVehicle = async (req,res) => {
     }
 }
 
-module.exports ={createVehicle,vehicleList ,getvehicle,updateVehicle,deleteVehicle}
+module.exports ={createVehicle,vehicleList ,getvehicle,updateVehicle,deleteVehicle,join}
