@@ -29,14 +29,12 @@ var visitorSchema  = new mongoose.Schema({
     },
     visitTo:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'empDetails'
     },
     purpose:{
         type: String
     },
-    apporvedBy:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'empDetails' 
+    approvedBy:{
+        type: mongoose.Schema.Types.ObjectId, 
     },
     vehicleId:{
         type: mongoose.Schema.Types.ObjectId
@@ -45,10 +43,10 @@ var visitorSchema  = new mongoose.Schema({
         type: String
     },
     createdBy:{
-        type: String
+        type: mongoose.Schema.Types.ObjectId
     },
     updatedBy:{
-        type: String
+        type: mongoose.Schema.Types.ObjectId
     },
     productDetails:{
         type: mongoose.Schema.Types.ObjectId,

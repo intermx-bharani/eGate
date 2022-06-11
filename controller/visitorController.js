@@ -36,7 +36,8 @@ const createVisitor = async (req,res) => {
         Visitor.checkOut = req.body.checkOut;
         Visitor.visitTo = req.body.empId;
         Visitor.purpose = req.body.purpose;
-        Visitor.approvedBy = req.body.empId;
+        Visitor.approvedBy = req.body.approvedBy;
+        // console.log(req.body.approvedBy)
         Visitor.vehicleId = req.body.vehicleId;
         Visitor.empId = req.body.empId;
         // Visitor.visitorIDPhoto = req.body.visitorIDPhoto;
@@ -44,6 +45,7 @@ const createVisitor = async (req,res) => {
         Visitor.createdBy = req.body.empId;
         Visitor.updatedBy = req.body.empId;
         Visitor.productDetails = Product._id;
+        console.log(Visitor.approvedBy)
         let result = await Visitor.save()
         console.log(result)
         successHandler(req, res, { data: result, message: 'user creation success'})
