@@ -23,7 +23,7 @@ var empSchema = new mongoose.Schema({
     department: {
         type: String,
     },
-    status: {
+    isActive: {
         type: Boolean,
     },
     address: {

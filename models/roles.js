@@ -9,9 +9,6 @@ var roleSchema = new mongoose.Schema({
     isDeleted: {
         type: Boolean,
     },
-    // isEnable: {
-    //     type: Boolean,
-    // }
 });
 
 module.exports = mongoose.model("role",roleSchema);

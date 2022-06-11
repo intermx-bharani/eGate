@@ -12,12 +12,7 @@ const sendMail = require("../mailer/sendMail");
 //create
 const createUser = async (req, res) => {
   try {
-    const Role = new role();
     let Employee = new employee();
-    Role.roleName = req.body.roleName;
-    Role.deletedAt = req.body.deletedAt;
-    Role.isDeleted = false;
-    Role.save();
 
     var pwd = generator.generate({
       length: 8,
@@ -33,8 +28,9 @@ const createUser = async (req, res) => {
     Employee.lastName = req.body.lastName;
     Employee.email = req.body.email;
     Employee.password = encryptedPassword;
-    Employee.role = Role._id;
-    Employee.status = true;
+    Employee.status = req.body.status;
+    Employee.role = req.body.role;
+    Employee.isActive = true;
     Employee.address = req.body.address;
     Employee.contactNo = req.body.contactNo;
     Employee.employeeImage = req.body.employeeImage;
@@ -51,11 +47,43 @@ const createUser = async (req, res) => {
   }
 };
 
+const join = async (req, res) => {
+  try {
+    let result = await employee.aggregate([
+      {
+        $lookup: {
+          from: "roles",
+          localField: "role",
+          foreignField: "_id",
+          as: "role",
+        },
+      },
+      {
+        $unwind: "$role",
+      },
+      {
+        $lookup: {
+          from: "status",
+          localField: "status",
+          foreignField: "_id",
+          as: "status",
+        },
+      },
+      {
+        $unwind: "$status",
+      },
+    ]);
+    successHandler(req, res, { data: result, message: "join" });
+  } catch (err) {
+    errorHandler(req, res, err, 500);
+  }
+};
+
 //list
 
 const userList = async (req, res) => {
   try {
-    let result = await employee.find({ status: true });
+    let result = await employee.find({ isActive: true });
     successHandler(req, res, { data: result, message: "view the all user" });
   } catch (err) {
     errorHandler(req, res, err, 500);
@@ -96,7 +124,7 @@ const inActive = async (req, res) => {
     const id = req.params.id;
     console.log(id);
     let result = await employee.findByIdAndUpdate(id, {
-      $set: { status: false },
+      $set: { isActive: false },
     });
     // let result = await employee.updateOne(id, {status : false} )
     successHandler(req, res, { Employee: result, message: "soft delete" });
@@ -149,4 +177,5 @@ module.exports = {
   inActive,
   updateUser,
   searchUser,
+  join
 };

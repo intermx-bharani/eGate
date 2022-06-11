@@ -42,6 +42,9 @@ var visitorSchema  = new mongoose.Schema({
     visitorIDPhoto:{
         type: String
     },
+    status:{
+        type: mongoose.Schema.Types.ObjectId
+    },
     createdBy:{
         type: mongoose.Schema.Types.ObjectId
     },
@@ -50,7 +53,6 @@ var visitorSchema  = new mongoose.Schema({
     },
     productDetails:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'product'
     },
     empId:{
         type: mongoose.Schema.Types.ObjectId

@@ -18,4 +18,7 @@ router.post('/join',controller.join)
 //update
 router.put('/update/:id',controller.updateVisitor)
 
+//delete
+router.delete('/delete/:id',controller.deleteVisitor)
+
 module.exports = router;
