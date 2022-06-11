@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
-const { employee } = require('../models/empSchema');
-const { role } = require('../models/roles');
+require('dotenv').config()
 
-var database = mongoose.connect("mongodb+srv://kaviya:kaviya06*@cluster0.xtrbtcx.mongodb.net/?retryWrites=true&w=majority/eGate",
+var database = mongoose.connect(process.env.MONGODB_URL,
 
 {
     useNewUrlParser: true,
 
 }
 );
-
-if (process.env.NODE_ENV === 'production') {
-    database = process.env.MONGOLAB_URI;
-}
 const db = mongoose.connection;
 db.on("error",console.error.bind(console,"connection error:"));
 db.once("open", function() {
