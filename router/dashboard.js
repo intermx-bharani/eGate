@@ -3,8 +3,7 @@ const router = express.Router();
 
 const { controller } = require('./../controller')
 
-router.post('/',controller.createStatus);
+router.post('/:date',controller.employee)
 
-router.get('/listStatus',controller.listStatus);
 
-module.exports = router;
+module.exports = router

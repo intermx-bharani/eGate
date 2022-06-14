@@ -17,7 +17,7 @@ const createStatus = async (req, res) => {
   }
 };
 
-const list = async (req, res) => {
+const listStatus = async (req, res) => {
   try {
     let result = await status.find({});
     successHandler(req, res, { data: result, message: "view the status" });
@@ -28,5 +28,5 @@ const list = async (req, res) => {
 
 module.exports = {
   createStatus,
-  list,
+  listStatus,
 };

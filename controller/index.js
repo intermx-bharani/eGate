@@ -4,5 +4,10 @@ module.exports.controller = {
     ...require('./visitorController'),
     ...require('./vehicleController'),
     ...require('./statusController'),
-    ...require('./productController')
+    ...require('./productController'),
+    ...require('./roleController'),
+    ...require('./dashboardController'),
+    ...require('./employeeAvailableController'),
+    ...require('./addressController'),
+    ...require('./countryController'),
 }

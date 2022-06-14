@@ -26,8 +26,11 @@ var empSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
     },
+    status: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
     address: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
     },
     contactNo: {
         type: Number,
@@ -35,6 +38,9 @@ var empSchema = new mongoose.Schema({
     employeeImage: {
         type: String,
     },
+    roleName:{
+        type:String,
+    }
 
 },{timestamps: true});
 

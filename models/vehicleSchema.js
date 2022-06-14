@@ -24,6 +24,9 @@ var vehicleSchema  = new mongoose.Schema({
     empId:{
         type: mongoose.Schema.Types.ObjectId
     },
+    status:{
+        type: mongoose.Schema.Types.ObjectId  
+    }
 },{timestamps: true});
 
 module.exports = mongoose.model("vehicle", vehicleSchema);

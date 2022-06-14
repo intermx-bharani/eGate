@@ -13,8 +13,9 @@ const sendMail = require("../mailer/sendMail");
 const createUser = async (req, res) => {
   try {
     let Employee = new employee();
+    let Role = new role();
 
-    var pwd = generator.generate({
+    let pwd = generator.generate({
       length: 8,
       numbers: true,
       unique: true,
@@ -29,15 +30,24 @@ const createUser = async (req, res) => {
     Employee.email = req.body.email;
     Employee.password = encryptedPassword;
     Employee.status = req.body.status;
-    Employee.role = req.body.role;
     Employee.isActive = true;
     Employee.address = req.body.address;
     Employee.contactNo = req.body.contactNo;
     Employee.employeeImage = req.body.employeeImage;
-    Employee.visitorId = req.body.visitorId;
+    Employee.role = req.body.role;
+    
+    
 
     sendMail.sendMail(Employee.email, pwd);
     let result = await Employee.save();
+
+    const roleid = Employee.role;
+    console.log(roleid)
+    const R = await role.findOne({_id:roleid})
+    const RoleName = R.roleName
+    console.log(RoleName);
+    Employee.roleName=RoleName;
+
     successHandler(req, res, {
       data: result,
       message: "user creation success",
@@ -47,7 +57,7 @@ const createUser = async (req, res) => {
   }
 };
 
-const join = async (req, res) => {
+const joinEmployee = async (req, res) => {
   try {
     let result = await employee.aggregate([
       {
@@ -57,10 +67,7 @@ const join = async (req, res) => {
           foreignField: "_id",
           as: "role",
         },
-      },
-      {
-        $unwind: "$role",
-      },
+      },{$unwind:"$role"},
       {
         $lookup: {
           from: "status",
@@ -68,10 +75,15 @@ const join = async (req, res) => {
           foreignField: "_id",
           as: "status",
         },
-      },
+      },{$unwind:"$status"},
       {
-        $unwind: "$status",
-      },
+        $lookup: {
+          from: "addresses",
+          localField: "address",
+          foreignField: "_id",
+          as: "address",
+        },
+      },{$unwind:"$address"},
     ]);
     successHandler(req, res, { data: result, message: "join" });
   } catch (err) {
@@ -177,5 +189,5 @@ module.exports = {
   inActive,
   updateUser,
   searchUser,
-  join
+  joinEmployee
 };

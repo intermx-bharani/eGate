@@ -3,8 +3,9 @@ const router = express.Router();
 
 const { controller } = require('./../controller')
 
-router.post('/',controller.createStatus);
+router.post('/',controller.createRole);
 
-router.get('/listStatus',controller.listStatus);
+router.get('/listRole',controller.list);
 
 module.exports = router;
+

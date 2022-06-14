@@ -27,7 +27,7 @@ const createVehicle = async (req, res) => {
 };
 
 //join
-const join = async (req, res) => {
+const joinVehicle = async (req, res) => {
   try {
     let result = await vehicle.aggregate([
       {
@@ -138,6 +138,6 @@ module.exports = {
   getvehicle,
   updateVehicle,
   deleteVehicle,
-  join,
+  joinVehicle,
   searchvehicle
 };

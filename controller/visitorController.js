@@ -18,7 +18,7 @@ const createVisitor = async (req, res) => {
     Visitor.companyName = req.body.companyName;
     Visitor.checkIn = req.body.checkIn;
     Visitor.checkOut = req.body.checkOut;
-    Visitor.visitTo = req.body.empId;
+    Visitor.visitTo = req.body.visitTo;
     Visitor.purpose = req.body.purpose;
     Visitor.approvedBy = req.body.approvedBy;
     Visitor.status = req.body.status;
@@ -26,22 +26,22 @@ const createVisitor = async (req, res) => {
     Visitor.empId = req.body.empId;
     // Visitor.visitorIDPhoto = req.body.visitorIDPhoto;
     // console.log(visitorIDPhoto)
-    Visitor.createdBy = req.body.empId;
-    Visitor.updatedBy = req.body.empId;
+    Visitor.createdBy = req.body.createdBy;
+    Visitor.updatedBy = req.body.updatedBy;
     Visitor.productDetails = Product._id;
     console.log(Visitor.approvedBy);
     let result = await Visitor.save();
     console.log(result);
     successHandler(req, res, {
       data: result,
-      message: "user creation success",
+      message: "visitor creation success",
     });
   } catch (err) {
     errorHandler(req, res, err, 500);
   }
 };
 
-const join = async (req, res) => {
+const joinVisitor = async (req, res) => {
   try {
     let result = await visitor.aggregate([
       {
@@ -51,10 +51,7 @@ const join = async (req, res) => {
           foreignField: "_id",
           as: "vehicle",
         },
-      },
-      {
-        $unwind: "$vehicle",
-      },
+      },{$unwind:'$vehicle'},
       {
         $lookup: {
           from: "empdetails",
@@ -62,10 +59,15 @@ const join = async (req, res) => {
           foreignField: "_id",
           as: "employeeDetails",
         },
-      },
+      },{$unwind:'$employeeDetails'},
       {
-        $unwind: "$employeeDetails",
-      },
+        $lookup: {
+          from: "empdetails",
+          localField: "approvedBy",
+          foreignField: "_id",
+          as: "employee",
+        },
+      },{$unwind:'$employee'},
       {
         $lookup: {
           from: "status",
@@ -73,12 +75,9 @@ const join = async (req, res) => {
           foreignField: "_id",
           as: "status",
         },
-      },
-      {
-        $unwind: "$status",
-      },
+      },{$unwind:'$status'},
     ]);
-    successHandler(req, res, { data: result, message: "join" });
+    successHandler(req, res, { data: result, message: "success" });
   } catch (err) {
     errorHandler(req, res, err, 500);
   }
@@ -161,7 +160,7 @@ module.exports = {
   createVisitor,
   visitorList,
   getVisitor,
-  join,
+  joinVisitor,
   deleteVisitor,
   updateVisitor,
   searchVisitor

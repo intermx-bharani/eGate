@@ -13,7 +13,7 @@ router.get('/lists',controller.visitorList)
 router.get('/view/:id',controller.getVisitor)
 
 // join
-router.post('/join',controller.join)
+router.post('/joinVisitor',controller.joinVisitor)
 
 //update
 router.put('/update/:id',controller.updateVisitor)

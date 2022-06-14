@@ -7,7 +7,7 @@ const createRole = async (req,res) => {
     try{
         Role.roleName = req.body.roleName;
         Role.deletedAt = req.body.deletedAt;
-        Role.isDeleted = req.body.isDeleted;
+        Role.isDeleted = false;
         let result = await Role.save()
         successHandler(req, res, { data: result, message: 'role creation success'})
     }

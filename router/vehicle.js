@@ -7,7 +7,7 @@ const { controller } = require('./../controller')
 router.post('/', controller.createVehicle)
 
 // join
-router.post('/join',controller.join)
+router.post('/join',controller.joinVehicle)
 
 
 // vehicleList
@@ -21,5 +21,6 @@ router.put('/update/:id',controller.updateVehicle)
 
 //delete
 router.delete('/delete/:id',controller.deleteVehicle)
+
 
 module.exports = router;

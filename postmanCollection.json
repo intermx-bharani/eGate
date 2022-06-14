@@ -1,0 +1,646 @@
+{
+	"info": {
+		"_postman_id": "721f485c-f36e-4983-8353-00759eede183",
+		"name": "egate",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"kav\",\n    \"email\":\"kaviya.s@agiratech.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/egate/users/search",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"users",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/egate/users/list",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"egate",
+								"users",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/eGate/users/inActive/62a4d50ce0014c78949a0595",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"eGate",
+								"users",
+								"inActive",
+								"62a4d50ce0014c78949a0595"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "        {\n            \"_id\": \"6295c19948d6ac94cc97a15f\",\n            \"empId\": \"AA001\",\n            \"firstName\": \"sanjay\",\n            \"lastName\": \"sathyamoorthy\",\n            \"email\": \"sanjay@gmail.com\",\n            \"password\": \"sanjay\",\n            \"role\": \"6295c19948d6ac94cc97a15e\",\n            \"status\": false,\n            \"address\": \"vell\",\n            \"contactNo\": 9632581473,\n            \"createdAt\": \"2022-05-31T07:19:53.212Z\",\n            \"updatedAt\": \"2022-06-01T11:26:32.388Z\",\n            \"__v\": 0\n        }\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/egate/users/view/update/6295c19948d6ac94cc97a15f",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"egate",
+								"users",
+								"view",
+								"update",
+								"6295c19948d6ac94cc97a15f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete employee p",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:4000/egate/users/delete/62984c468bbe58e02546a2ee",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"egate",
+								"users",
+								"delete",
+								"62984c468bbe58e02546a2ee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inactive",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/egate/users/inActive/6295cbb363618ca43625fcae",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"egate",
+								"users",
+								"inActive",
+								"6295cbb363618ca43625fcae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view employee details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/egate/users/view/62984adb6a94fda5220f14c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"users",
+								"view",
+								"62984adb6a94fda5220f14c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.a2F2aXlhLnNAYWdpcmF0ZWNoLmNvbQ.2coyg8tXp27ESu9c4nx3Ggc3wWcX6WnBdeEgMzaJ5j4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "fullname",
+								"value": "",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"empId\": \"AA003\",\n    \"firstName\": \"sanjay\",\n    \"lastName\": \"san\",\n    \"email\": \"gss.sanjay23@gmail.com\",\n    \"password\": \"\",\n    \"role\": \"Role._id\",\n    \"isActive\": \"true\",\n    \"address\": \"chennai\",\n    \"contactNo\": \"7896543210\",\n    \"role\": \"62a45aab23ea5063a6c33518\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/egate/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"egate",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"kaviya.s@agiratech.com\",\n    \"password\":\"pFayaOcs\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/egate/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"egate",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forget",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"kaviya.s@agiratech.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/egate/auth/forget",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"auth",
+								"forget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"kaviyasathyamoorthy06@gmail.com\",\n    \"password\": \"kaviya\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/egate/auth/change",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"auth",
+								"change"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "status",
+			"item": [
+				{
+					"name": "{{URL}}/egate/status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/egate/status",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"egate",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{URL}}/egate/status/list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/egate/status/list",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"egate",
+								"status",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "vehicle",
+			"item": [
+				{
+					"name": "create vehicle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vehicleNumber\": \"TN7890\",\n    \"vehicleType\": \"car\",\n    \"authorizedPerson\": \"kav\",\n    \"createdBy\": \"kaviya\",\n    \"updatedBy\": \"kaviya\",\n    \"approvedBy\": \"\",\n    \"empId\":\"62a1cb3cb8b3168072f58669\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/egate/vehicle",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"vehicle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "vehicle join",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/egate/vehicle/join",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"vehicle",
+								"join"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/egate/vehicle/list",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"vehicle",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/egate/vehicle/view/629a00698fe81a3fd16c033f",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"vehicle",
+								"view",
+								"629a00698fe81a3fd16c033f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "visitor",
+			"item": [
+				{
+					"name": "create visitor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "        {\n            \"name\": \"jananii\",\n            \"email\": \"kaviya@gmail.com\",\n            \"visitorType\": \"interview\",\n            \"address\": \"chennai\",\n            \"contactNo\": \"789963215\",\n            \"companyName\": \"agira\",\n            \"checkIn\": \"2022-12-03T18:30:00.000Z\",\n            \"checkOut\": \"2022-12-03T18:30:00.000Z\",\n            \"visitTo\": \"62a45aab23ea5063a6c33519\",\n            \"createdBy\": \"62a45aab23ea5063a6c33519\",\n            \"updatedBy\": \"62a45aab23ea5063a6c33519\",\n            \"vehicleId\": \"62a1d2f3ecc5557e9668fd93\",\n            \"approvedBy\": \"62a45b6b23ea5063a6c3351f\",\n            \"empId\": \"62a45aab23ea5063a6c33519\",\n            \"status\": \"62a46d089f642378c1e28451\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/egate/visitor",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"egate",
+								"visitor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "visitor details view",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/egate/visitor/view/629cecbba318eea5de1852ea",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"egate",
+								"visitor",
+								"view",
+								"629cecbba318eea5de1852ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "visitor list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "        {\n            \"_id\": \"629a08d7cbf9f1a8c59b49cf\",\n            \"name\": \"kavi\",\n            \"email\": \"praveen@gmail.com\",\n            \"visitorType\": \"interview\",\n            \"address\": \"chennai\",\n            \"contactNo\": \"789963215\",\n            \"companyName\": \"agira\",\n            \"checkIn\": \"2022-12-03T18:30:00.000Z\",\n            \"checkOut\": \"2022-12-03T18:30:00.000Z\",\n            \"visitTo\": \"629a08d7cbf9f1a8c59b49cd\",\n            \"vehicleId\": \"629a08d7cbf9f1a8c59b49ce\",\n            \"createdBy\": \"629a08d7cbf9f1a8c59b49cd\",\n            \"updatedBy\": \"629a08d7cbf9f1a8c59b49cd\",\n            \"productDetails\": \"629a08d7cbf9f1a8c59b49d0\",\n            \"createdAt\": \"2022-06-03T13:12:55.143Z\",\n            \"updatedAt\": \"2022-06-03T13:12:55.143Z\",\n            \"__v\": 0\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/egate/visitor/lists",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"visitor",
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/egate/vehicle/629a08d7cbf9f1a8c59b49cf",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vehicleID\":\"629a08d7cbf9f1a8c59b49cf\",\n    \"vehicleNumber\": \"TN7890\",\n    \"vehicleType\": \"car\",\n    \"authorizedPerson\": \"tharun\",\n    \"createdBy\": \"kavitha\",\n    \"updatedBy\": \"kaviya\",\n    \"approvedBy\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/egate/vehicle/629a08d7cbf9f1a8c59b49cf",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"vehicle",
+								"629a08d7cbf9f1a8c59b49cf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3000/egate/visitor/visitors",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "        {\n            \"_id\": \"629a08d7cbf9f1a8c59b49cf\",\n            \"name\": \"kaviya\",\n            \"email\": \"praveen@gmail.com\",\n            \"visitorType\": \"interview\",\n            \"address\": \"chennai\",\n            \"contactNo\": \"789963215\",\n            \"companyName\": \"agira\",\n            \"checkIn\": \"2022-12-03T18:30:00.000Z\",\n            \"checkOut\": \"2022-12-03T18:30:00.000Z\",\n            \"visitTo\": \"\",\n            \"createdBy\": \"a\",\n            \"updatedBy\": \"v\",\n            \"__v\": 0\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/egate/visitor/visitors",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"visitor",
+								"visitors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "join view",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/egate/visitor/join",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"egate",
+								"visitor",
+								"join"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

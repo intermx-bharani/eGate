@@ -35,6 +35,9 @@ router.put('/view/update/:id',controller.updateUser)
 //search
 router.post('/search',controller.searchUser)
 
+//join
+router.get('/joinemp',controller.joinEmployee)
+
 
 
 

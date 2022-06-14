@@ -1,15 +1,16 @@
 const employeeAvailable = require("../models/employeeAvailable");
 
-const { errorHandler, successHandler } = require("./../helper/handlers");
+const { errorHandler, successHandler } = require("../helper/handlers");
 
 //create
 const createAttendance = async (req, res) => {
   try {
     let EmployeeAvailable = new employeeAvailable();
 
-    EmployeeAvailable.date = req.body.date;
+    EmployeeAvailable.date = new Date(req.body.date);
     EmployeeAvailable.employee = req.body.employee;
     EmployeeAvailable.createdBy = req.body.createdBy;
+    EmployeeAvailable.count= req.body.employee.length;
 
     let result = await EmployeeAvailable.save();
     successHandler(req, res, {
@@ -21,17 +22,29 @@ const createAttendance = async (req, res) => {
   }
 };
 
-const join = async (req, res) => {
+const joinAttendance = async (req, res) => {
   try {
     let result = await employeeAvailable.aggregate([
       {
         $lookup: {
-          from: "attendances",
+          from: "empdetails",
           localField: "employee",
           foreignField: "_id",
           as: "employee",
         },
+      },{
+        $unwind: "$employee"
       },
+      {
+        $lookup: {
+          from: "empdetails",
+          localField: "createdBy",
+          foreignField: "_id",
+          as: "emp",
+        },
+      },{
+        $unwind: "$emp"
+      }
     ]);
     successHandler(req, res, { data: result, message: "join" });
   } catch (err) {
@@ -52,6 +65,6 @@ const attendanceList = async (req,res) => {
 
 module.exports = {
     createAttendance,
-    join,
+    joinAttendance,
     attendanceList 
 }
