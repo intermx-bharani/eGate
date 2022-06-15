@@ -24,11 +24,12 @@ const createVisitor = async (req, res) => {
     Visitor.status = req.body.status;
     Visitor.vehicleId = req.body.vehicleId;
     Visitor.empId = req.body.empId;
+    Visitor.date = new Date(req.body.date);
     // Visitor.visitorIDPhoto = req.body.visitorIDPhoto;
     // console.log(visitorIDPhoto)
     Visitor.createdBy = req.body.createdBy;
     Visitor.updatedBy = req.body.updatedBy;
-    Visitor.productDetails = Product._id;
+    Visitor.productDetails = req.body.productDetails;
     console.log(Visitor.approvedBy);
     let result = await Visitor.save();
     console.log(result);
@@ -46,20 +47,12 @@ const joinVisitor = async (req, res) => {
     let result = await visitor.aggregate([
       {
         $lookup: {
-          from: "vehicles",
-          localField: "vehicleId",
-          foreignField: "_id",
-          as: "vehicle",
-        },
-      },{$unwind:'$vehicle'},
-      {
-        $lookup: {
           from: "empdetails",
           localField: "empId",
           foreignField: "_id",
           as: "employeeDetails",
         },
-      },{$unwind:'$employeeDetails'},
+      },
       {
         $lookup: {
           from: "empdetails",
@@ -67,7 +60,7 @@ const joinVisitor = async (req, res) => {
           foreignField: "_id",
           as: "employee",
         },
-      },{$unwind:'$employee'},
+      },
       {
         $lookup: {
           from: "status",
@@ -75,7 +68,15 @@ const joinVisitor = async (req, res) => {
           foreignField: "_id",
           as: "status",
         },
-      },{$unwind:'$status'},
+      },
+      {
+        $lookup: {
+          from: "vehicles",
+          localField: "vehicleId",
+          foreignField: "_id",
+          as: "vehicle",
+        },
+      },
     ]);
     successHandler(req, res, { data: result, message: "success" });
   } catch (err) {

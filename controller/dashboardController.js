@@ -1,17 +1,14 @@
+const employee = require("../models/empSchema");
+const visitor = require("../models/visitorSchema");
+const vehicle = require("../models/vehicleSchema");
 const employeeAvailable = require("../models/employeeAvailable");
 
 const { errorHandler, successHandler } = require("./../helper/handlers");
-
-const employee = async (req,res) => {
+//user daily report
+const dailyAttendance = async (req,res) => {
     try{
         const Date = req.params.date
-        // const Employee = req.body.employee
         let query = await employeeAvailable.find({date: Date})
-        // await query.count (function(err,count) {
-        //     if (err)
-        //         console.log(err)
-        //     else
-        //         console.log("count is",count)
             successHandler(req, res, {
                 data: query,
                 message: "count",
@@ -20,25 +17,120 @@ const employee = async (req,res) => {
         catch(err){
             errorHandler(req,res,err,500)
         }
-    }
+};
 
-const visitor = async (req,res) => {
+const employeeActive = async (req,res) => {
     try{
-        
+        let query = await employee.find({isActive: true}).count()
+        successHandler(req, res, {
+            data: query,
+            message: "count",
+          });
     }
     catch(err){
+        errorHandler(req,res,err,500)
+    }
+};
 
+
+//visitor daily report
+
+const visitorEntry = async (req,res) => {
+    try{
+        const Date = req.body.date
+        let query = await visitor.find({date:Date}).count()
+        successHandler(req, res, {
+            data: query,
+            message: "count2223",
+          });
+    }
+    catch(err){
+        errorHandler(req,res,err,500)
     }
 }  
-    // catch(err){
-    //     errorHandler(req,        // await query.count (function(err,count) {
-        //     if (err)
-        //         console.log(err)
-        //     else
-        //         console.log("count is",count) res, err, 500);
-    // }
+
+const visitorIn = async (req,res) => {
+    try{
+        const id = req.params.id
+        let query = await visitor.find({status: id}).count()
+        successHandler(req, res, {
+            data: query,
+            message: "count678",
+          });
+    }
+    catch(err){
+        errorHandler(req,res,err,500)
+    }
+}
+
+
+const visitorOut = async (req,res) => {
+    try{
+        const id = req.params.id
+        let query = await visitor.find({status: id}).count()
+        successHandler(req, res, {
+            data: query,
+            message: "count678",
+          });
+    }
+    catch(err){
+        errorHandler(req,res,err,500)
+    }
+}
+
+
+//vehicle daily report
+const vehicleEntry = async (req,res) => {
+    try{
+        const Date = req.body.date
+        let query = await vehicle.find({date:Date}).count()
+        successHandler(req, res, {
+            data: query,
+            message: "count456",
+          });
+    }
+    catch(err){
+        errorHandler(req,res,err,500)
+    }
+}
+
+const vehicleIn = async (req,res) => {
+    try{
+        const id = req.params.id
+        let query = await vehicle.find({status: id}).count()
+        successHandler(req, res, {
+            data: query,
+            message: "count1234",
+          });
+    }
+    catch(err){
+        errorHandler(req,res,err,500)
+    }
+    
+}
+
+const vehicleOut = async (req,res) => {
+    try{
+        const id = req.params.id
+        let query = await vehicle.find({status: id}).count()
+        successHandler(req, res, {
+            data: query,
+            message: "count678",
+          });
+    }
+    catch(err){
+        errorHandler(req,res,err,500)
+    }
+}
 
 
 module.exports = {
-    employee,
+    dailyAttendance,
+    employeeActive,
+    visitorEntry,
+    visitorIn,
+    visitorOut,
+    vehicleEntry,
+    vehicleIn,
+    vehicleOut
   };

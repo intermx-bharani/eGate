@@ -6,6 +6,8 @@ const employeeAvailableSchema = new mongoose.Schema({
     employee: {
         type: [
             mongoose.Schema.Types.ObjectId,
+            mongoose.Schema.Types.ObjectId,
+            mongoose.Schema.Types.ObjectId,
         ]
     },
     createdBy: {

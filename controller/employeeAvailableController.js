@@ -29,11 +29,9 @@ const joinAttendance = async (req, res) => {
         $lookup: {
           from: "empdetails",
           localField: "employee",
-          foreignField: "_id",
+          foreignField:"_id",
           as: "employee",
         },
-      },{
-        $unwind: "$employee"
       },
       {
         $lookup: {

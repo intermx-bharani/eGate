@@ -26,6 +26,9 @@ var vehicleSchema  = new mongoose.Schema({
     },
     status:{
         type: mongoose.Schema.Types.ObjectId  
+    },
+    date:{
+        type: Date
     }
 },{timestamps: true});
 

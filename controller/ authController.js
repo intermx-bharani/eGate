@@ -30,7 +30,7 @@ const login = async (req,res) => {
             // const verify = jwt.verify(token,process.env.USER_VERIFICATION_TOKEN_SECRET)
             // res.send("logged in")
             // res.send(token)
-            successHandler(req, res, { data: token, message: 'join'})
+            successHandler(req, res, { data: token, message: 'login'})
 
         }
 
@@ -57,18 +57,25 @@ const forget = async (req,res) => {
 
 //change password
 const change = async (req,res) => {
-    const Employee = new employee();
-    const {password,email} = req.body
-    if (password){
-        console.log(password)
-        const salt = await bcrypt.genSalt(10);
-        const encryptedPassword = await bcrypt.hash(password,salt);
-        console.log(encryptedPassword)
-
-        return  employee.updateMany({email:email},{password:encryptedPassword},req.body).catch((err) => {
+    try{
+        const Employee = new employee();
+        const {password,email} = req.body
+        if (password){
             console.log(password)
-            console.log(err),{employee:req.body}
-            });
+            const salt = await bcrypt.genSalt(10);
+            const encryptedPassword = await bcrypt.hash(password,salt);
+            console.log(encryptedPassword)
+    
+            let result = await employee.updateMany({email:email},{password:encryptedPassword},req.body)
+            successHandler(req, res, { data: result, message: 'password change'})
+            // return  employee.updateMany({email:email},{password:encryptedPassword},req.body).catch((err) => {
+            //     console.log(password)
+            //     console.log(err),{employee:req.body}
+            //     });
+        }
+    }
+    catch(err){
+        errorHandler(req, res, err, 500);
     }
     
 }

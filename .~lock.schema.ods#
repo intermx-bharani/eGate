@@ -2,3 +2,11 @@
 
 
 let query = await employeeAvailable.find({count:req.body.employee})
+
+    // catch(err){
+    //     errorHandler(req,        // await query.count (function(err,count) {
+        //     if (err)
+        //         console.log(err)
+        //     else
+        //         console.log("count is",count) res, err, 500);
+    // }

@@ -57,6 +57,9 @@ var visitorSchema  = new mongoose.Schema({
     empId:{
         type: mongoose.Schema.Types.ObjectId
     },
+    date:{
+        type: Date
+    }
 
 },{timestamps: true});
 

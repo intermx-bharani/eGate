@@ -5,7 +5,7 @@ const { controller } = require('./../controller')
 //create
 router.post('/',controller.createProduct);
 //list
-router.get('/list',controller.list);
+router.get('/listProduct',controller.listProduct);
 //view
 router.get('/view/:id',controller.view)
 //update

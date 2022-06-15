@@ -22,5 +22,8 @@ router.put('/update/:id',controller.updateVehicle)
 //delete
 router.delete('/delete/:id',controller.deleteVehicle)
 
+//search
+router.post('/search',controller.searchVehicle)
+
 
 module.exports = router;

@@ -23,7 +23,7 @@ const createProduct = async (req,res) => {
     }
 }
 //list
-const list = async (req,res) => {
+const listProduct = async (req,res) => {
     try{
         let result = await product.find({});
         successHandler(req, res, { data: result, message: 'list the product details'})
@@ -69,5 +69,5 @@ const deleteProduct = async (req,res) => {
 }
 
 module.exports = {
-    createProduct,list,view,updateProduct,deleteProduct
+    createProduct,listProduct,view,updateProduct,deleteProduct
 }

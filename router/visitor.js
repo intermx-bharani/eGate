@@ -21,4 +21,7 @@ router.put('/update/:id',controller.updateVisitor)
 //delete
 router.delete('/delete/:id',controller.deleteVisitor)
 
+//search
+router.post('/search',controller.searchVisitor)
+
 module.exports = router;

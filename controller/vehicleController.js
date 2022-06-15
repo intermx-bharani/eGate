@@ -16,6 +16,7 @@ const createVehicle = async (req, res) => {
     Vehicle.updatedBy = req.body.empId;
     Vehicle.approvedBy = req.body.approvedBy;
     Vehicle.empId = req.body.empId;
+    Vehicle.date = new Date(req.body.date);
     let result = await Vehicle.save();
     successHandler(req, res, {
       data: result,
@@ -115,7 +116,7 @@ const deleteVehicle = async (req, res) => {
 };
 
 //search
-const searchvehicle = async (req,res) => {
+const searchVehicle = async (req,res) => {
   try{
     const data =req.body;
     let result = await vehicle.find(
@@ -139,5 +140,5 @@ module.exports = {
   updateVehicle,
   deleteVehicle,
   joinVehicle,
-  searchvehicle
+  searchVehicle
 };

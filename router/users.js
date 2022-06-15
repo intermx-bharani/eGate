@@ -23,7 +23,7 @@ router.get('/view/:id', controller.getUsers)
 router.delete('/delete/:id',controller.deleteUsers)
 
 //softDelete
-router.patch('/inActive/:id',controller.inActive)
+router.delete('/inActive/:id',controller.inActive)
 
 // router.delete('/softDelete/:id', controller.softDelete)
 
