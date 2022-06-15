@@ -1,8 +1,7 @@
-// const express = require("express");
-// const router = express.Router();
 const employee = require("../models/empSchema");
 const bcrypt = require('bcrypt');
 const jwt = require ('jsonwebtoken');
+var generator = require("generate-password");
 const  sendMail  = require("../mailer/sendMail");
 const { errorHandler, successHandler } = require('./../helper/handlers');
 require('dotenv').config()
@@ -27,7 +26,6 @@ const login = async (req,res) => {
         if(match){
             const token = jwt.sign((email),process.env.USER_VERIFICATION_TOKEN_SECRET)
             console.log(token)
-            // const verify = jwt.verify(token,process.env.USER_VERIFICATION_TOKEN_SECRET)
             // res.send("logged in")
             // res.send(token)
             successHandler(req, res, { data: token, message: 'login'})
@@ -38,21 +36,31 @@ const login = async (req,res) => {
     catch(err){
         errorHandler(req, res, err, 500);
     }
-    // else{
-    //     res.send("password error")
-    // }
 }
 
 
 //forget
-const forget = async (req,res) => {
-    const {email} = req.body
-    // const {password} = req.body
-    // console.log(password)
-    sendMail.sendMail(email);
-    console.log(email)
+const forget =  async (req,res) => {
+    try{
+        const {email} = req.body
+        const pwd =generator.generate({
+            length: 8,
+            numbers: true,
+            unique: true
+        });
+        const salt = await bcrypt.genSalt(10);
+        const encryptedPassword = await bcrypt.hash(pwd,salt);
+        console.log(encryptedPassword)
+        const forgetpassword = await employee.updateOne({email:email},
+            {password:encryptedPassword},req.body)
+        console.log(email); 
+        sendMail.sendMail(email,pwd);   
+        successHandler(req, res, { data: forgetpassword, message: 'forget password change'})
 
-    return ("reset successfully")
+    }
+    catch(err){
+        errorHandler(req, res, err, 500);
+    }
 }
 
 //change password
@@ -68,10 +76,6 @@ const change = async (req,res) => {
     
             let result = await employee.updateMany({email:email},{password:encryptedPassword},req.body)
             successHandler(req, res, { data: result, message: 'password change'})
-            // return  employee.updateMany({email:email},{password:encryptedPassword},req.body).catch((err) => {
-            //     console.log(password)
-            //     console.log(err),{employee:req.body}
-            //     });
         }
     }
     catch(err){
