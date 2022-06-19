@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const database = require("./config/mongo");
 require('dotenv').config()
 const bodyparser = require("body-parser");
+const multer = require("multer")
 
 
 const app = express();
@@ -15,8 +16,14 @@ const db = mongoose.connection;
 
 const appRoutes = require("./router");
 const { controller } = require('./controller');
+// const { errorHandler, successHandler } = require("./../helper/handlers");
 
 app.use('/egate', appRoutes);
+
+
+
+
+
 app.get('/', function(req, res, next) {
   res.send('Home page');
 });

@@ -1,29 +1,28 @@
 const express = require("express");
 const router = express.Router();
 
-const { controller } = require('./../controller')
+const { controller } = require("./../controller");
+const auth = require("../authenticate");
 
 //create
-router.post('/', controller.createVehicle)
+router.post("/", auth.authenticateToken, controller.createVehicle);
 
 // join
-router.post('/join',controller.joinVehicle)
-
+router.post("/join", auth.authenticateToken, controller.joinVehicle);
 
 // vehicleList
-router.get('/list',controller.vehicleList)
+router.get("/list", auth.authenticateToken, controller.vehicleList);
 
 // view
-router.get('/view/:id',controller.getvehicle)
+router.get("/view/:id", auth.authenticateToken, controller.getvehicle);
 
 //update
-router.put('/update/:id',controller.updateVehicle)
+router.put("/update/:id", auth.authenticateToken, controller.updateVehicle);
 
 //delete
-router.delete('/delete/:id',controller.deleteVehicle)
+router.delete("/delete/:id", auth.authenticateToken, controller.deleteVehicle);
 
 //search
-router.post('/search',controller.searchVehicle)
-
+router.post("/search", auth.authenticateToken, controller.searchVehicle);
 
 module.exports = router;

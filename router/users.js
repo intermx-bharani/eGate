@@ -1,46 +1,44 @@
 const express = require("express");
 const router = express.Router();
+
+// const multer = require('multer')
 // const employee = require("../models/empSchema");
-// const role = require("../models/roles");
+// const { uploadFile } = require('../config/s3Upload')
 
-// const { required } = require("nodemon/lib/config");
-
-const { controller } = require('./../controller')
-const auth = require('../authenticate')
+const { controller } = require("./../controller");
+const auth = require("../authenticate");
+// const employeeAvailable = require("../models/employeeAvailable");
 
 //create
-router.post('/',auth.authenticateToken, controller.createUser)
+router.post("/", auth.authenticateToken, controller.createUser);
 
 //list
-router.get('/list',controller.userList)
-
+router.get("/list", auth.authenticateToken, controller.userList);
 
 //view details
-router.get('/view/:id', controller.getUsers)
-
+router.get("/view/:id", auth.authenticateToken, controller.getUsers);
 
 //delete
-router.delete('/delete/:id',controller.deleteUsers)
+router.delete("/delete/:id", auth.authenticateToken, controller.deleteUsers);
 
 //softDelete
-router.delete('/inActive/:id',controller.inActive)
-
-// router.delete('/softDelete/:id', controller.softDelete)
-
-
+router.delete("/inActive/:id", auth.authenticateToken, controller.inActive);
 
 //update
-router.put('/view/update/:id',controller.updateUser)
+router.put("/view/update", auth.authenticateToken, controller.updateUser);
 
 //search
-router.post('/search',controller.searchUser)
+router.post("/search", auth.authenticateToken, controller.searchUser);
 
 //join
-router.get('/joinemp',controller.joinEmployee)
+router.get("/joinemp", controller.joinEmployee);
 
+// const upload = multer({dest: '../image'})
+// router.put("/upload",upload.single('image'), async (req,res) => {
+//     const file = req.file
+//     const result = await uploadFile(file)
+//     res.send("uploaded")
+// });
 
-
-
-console.log("hello");
 
 module.exports = router;

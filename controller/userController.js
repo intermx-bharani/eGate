@@ -1,19 +1,30 @@
 const employee = require("../models/empSchema");
 const role = require("../models/roles");
+const fs = require("fs");
+
 
 var generator = require("generate-password");
 
 require("dotenv").config();
 const { errorHandler, successHandler } = require("./../helper/handlers");
-const { getMaxListeners } = require("../models/empSchema");
 const bcrypt = require("bcrypt");
 const sendMail = require("../mailer/sendMail");
 
+const hasAccess = (roles = [], user = {}) => {
+  return roles.includes(user.roleName);
+};
+const requiredRole = ["admin"];
+
 //create
+
 const createUser = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
     let Employee = new employee();
-    let Role = new role();
 
     let pwd = generator.generate({
       length: 8,
@@ -36,17 +47,15 @@ const createUser = async (req, res) => {
     Employee.employeeImage = req.body.employeeImage;
     Employee.role = req.body.role;
     
-    
 
     sendMail.sendMail(Employee.email, pwd);
     let result = await Employee.save();
 
     const roleid = Employee.role;
-    console.log(roleid)
-    const R = await role.findOne({_id:roleid})
-    const RoleName = R.roleName
-    console.log(RoleName);
-    Employee.roleName=RoleName;
+    const R = await role.findOne({ _id: roleid });
+    const RoleName = R.roleName;
+    Employee.roleName = RoleName;
+    Employee.save();
 
     successHandler(req, res, {
       data: result,
@@ -56,6 +65,8 @@ const createUser = async (req, res) => {
     errorHandler(req, res, err, 500);
   }
 };
+
+//join view
 
 const joinEmployee = async (req, res) => {
   try {
@@ -67,7 +78,8 @@ const joinEmployee = async (req, res) => {
           foreignField: "_id",
           as: "role",
         },
-      },{$unwind:"$role"},
+      },
+      { $unwind: "$role" },
       {
         $lookup: {
           from: "status",
@@ -75,7 +87,8 @@ const joinEmployee = async (req, res) => {
           foreignField: "_id",
           as: "status",
         },
-      },{$unwind:"$status"},
+      },
+      { $unwind: "$status" },
       {
         $lookup: {
           from: "addresses",
@@ -83,9 +96,10 @@ const joinEmployee = async (req, res) => {
           foreignField: "_id",
           as: "address",
         },
-      },{$unwind:"$address"},
+      },
+      { $unwind: "$address" },
     ]);
-    successHandler(req, res, { data: result, message: "join" });
+    successHandler(req, res, { data: result, message: "joining list" });
   } catch (err) {
     errorHandler(req, res, err, 500);
   }
@@ -95,6 +109,12 @@ const joinEmployee = async (req, res) => {
 
 const userList = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+
     let result = await employee.find({ isActive: true });
     successHandler(req, res, { data: result, message: "view the all user" });
   } catch (err) {
@@ -106,6 +126,11 @@ const userList = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
     const id = req.params.id;
     let result = await employee.find({ _id: id });
     successHandler(req, res, {
@@ -117,43 +142,55 @@ const getUsers = async (req, res) => {
   }
 };
 
-//delete
+//hard delete
 
 const deleteUsers = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
     const id = req.params.id;
-    // const userId = req.params.userId;
     let result = await employee.findByIdAndDelete({ _id: id });
-    successHandler(req, res, { Employee: result, message: "delete the user" });
+    successHandler(req, res, { Employee: result, message: "deleted" });
   } catch (err) {
     errorHandler(req, res, err, 500);
   }
 };
 
 //soft delete
+
 const inActive = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
     const id = req.params.id;
-    console.log(id);
     let result = await employee.findByIdAndUpdate(id, {
       $set: { isActive: false },
     });
-    // let result = await employee.updateOne(id, {status : false} )
-    successHandler(req, res, { Employee: result, message: "soft delete" });
-    // nxt()
+    successHandler(req, res, { Employee: result, message: "soft deleted" });
   } catch (err) {
     errorHandler(req, res, err, 500);
   }
 };
 
 //update
+
 const updateUser = async (req, res) => {
-  console.log("update");
   try {
+    let loginUser = req.user;
+    console.log(loginUser)
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
     const id = req.body._id;
-    console.log(id);
-    let result = await employee.updateOne({ _id: id }, req.body);
-    successHandler(req, res, { Employee: result, message: "update" });
+    let result = await employee.findByIdAndUpdate({ _id: id }, req.body);
+    successHandler(req, res, { data: result, message: "updated user details" });
   } catch (err) {
     errorHandler(req, res, err, 500);
   }
@@ -163,17 +200,22 @@ const updateUser = async (req, res) => {
 
 const searchUser = async (req, res) => {
   try {
-    const data = req.body;
-    // console.log(id)
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+    const data = req.body.firstName;
+    const data2 = req.body.email;
+    const data3 = req.body.email;
     let result = await employee.find(
       {
         $or: [
           { firstName: { $regex: `${data}` } },
-          { email: { $regex: `${data}` } },
-          // {contactNo: { $in: `${data}` }},
+          { email: { $regex: `${data2}` } },
+          {contactNo: { $in: `${data3}` }},
         ],
       }
-      // console.log(data)
     );
     successHandler(req, res, { data: result, message: "search" });
   } catch (err) {
@@ -189,5 +231,5 @@ module.exports = {
   inActive,
   updateUser,
   searchUser,
-  joinEmployee
+  joinEmployee,
 };

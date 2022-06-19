@@ -1,50 +1,35 @@
-// const fs = require('fs');
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
+const fs = require("fs");
 
 
 
-const uploadFile = async (req,res) => {
-    let s3 = new AWS.S3({
-        accessKeyId: process.env.S3_ACCESS_KEY,
-        secretAccessKey: process.env.S3_SECRET_KEY,
-        region: process.env.S3_REGION,
-      });
+var s3 = new AWS.S3({
+  accessKeyId: "AKIA3G5JJQSWD65I4HEL",
+  secretAccessKey: "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",
+  region: "ap-south-1",
+});
 
-    //   const imageURL = 'https://www.pexels.com/search/dogs/'
-    //   console.log(imageURL)
-    //   const res = await fetch(imageURL)
-    //   const blob = await res.buffer()
 
-    //   const imagePath = req.files[0].imagePath
-    //   const blobs = fs.readFileSync(imagePath)
 
-    //   const uploadedImage = await s3.upload({
-    //     Bucket: process.env.S3_BUCKET_NAME,
-    //     Key: req.files[0].originalFilename,
-    //     Body: blobs,
-        
-    //   }).promise()
-    //   console.log(uploadFile);
+const uploadFile = (filename) => {
+  const fileContent = fs.readFileSync(filename);
 
-    //   uploadedImage.Location
-    // }
-  
-     const bucketName = process.env.S3_BUCKET_NAME;
-    //  let bucketPath ='buddies-2022-projects/egate/'
+  const params = {
+    Bucket: "buddies-2022-projects/egate",
+    Key: `dog.jpg`,
+    Body: "fileContent",
+    ContentType: "image/jpg",
+  };
 
-      // let params = {
-      //   Bucket: bucketName,
-      //   Key: bucketPath,
-      //   Body: image,
-      // };
-      s3.putObject({
-        Bucket: bucketName,
-        Key: "dog.jpg",
-        Body: "image",
-      })
-      .promise();
-    };
-    // uploadFile('home/downloads/dog.jpg')
-   
-module.exports = {uploadFile}
+  s3.upload(params, (s3Err, data) => {
+    if (s3Err) {
+      throw s3Err;
+    } else {
+      console.log("file upload successfully", data.Location);
+    }
+  });
+};
 
+
+
+module.exports = { uploadFile };

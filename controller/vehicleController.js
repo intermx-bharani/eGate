@@ -2,11 +2,23 @@ const employee = require("../models/empSchema");
 const vehicle = require("../models/vehicleSchema");
 
 const { errorHandler, successHandler } = require("./../helper/handlers");
+
+const hasAccess = (roles = [], user = {}) => {
+  return roles.includes(user.roleName);
+};
+const requiredRole = ["security","security Manager","admin"];
+
 //create
+
 const createVehicle = async (req, res) => {
   try {
+        let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+
     const Vehicle = new vehicle();
-    console.log("kaviya");
     Vehicle.vehicleNumber = req.body.vehicleNumber;
     Vehicle.vehicleType = req.body.vehicleType;
     Vehicle.vehiclePhoto = req.body.vehiclePhoto;
@@ -64,6 +76,12 @@ const joinVehicle = async (req, res) => {
 
 const vehicleList = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+    
     let result = await vehicle.find({});
     successHandler(req, res, {
       data: result,
@@ -78,6 +96,12 @@ const vehicleList = async (req, res) => {
 
 const getvehicle = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+
     const id = req.params.id;
     let result = await vehicle.find({ _id: id });
     successHandler(req, res, {
@@ -91,10 +115,14 @@ const getvehicle = async (req, res) => {
 
 //update
 const updateVehicle = async (req, res) => {
-  console.log("update");
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+
     const id = req.body._id;
-    console.log(id);
     let result = await vehicle.updateOne({ _id: id }, req.body);
     successHandler(req, res, { Employee: result, message: "update" });
   } catch (err) {
@@ -106,6 +134,12 @@ const updateVehicle = async (req, res) => {
 
 const deleteVehicle = async (req, res) => {
   try {
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+
     const id = req.params.id;
     // const userId = req.params.userId;
     let result = await vehicle.findByIdAndDelete({ _id: id });
@@ -118,7 +152,13 @@ const deleteVehicle = async (req, res) => {
 //search
 const searchVehicle = async (req,res) => {
   try{
-    const data =req.body;
+    let loginUser = req.user;
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+
+    const data =req.body.vehicleNumber;
     let result = await vehicle.find(
       {
         $or: [

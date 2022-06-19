@@ -1,11 +1,25 @@
 const visitor = require("../models/visitorSchema");
 const product = require("../models/productSchema");
+const s3 = require("../config/s3Upload");
 
 const { errorHandler, successHandler } = require("./../helper/handlers");
 
+const hasAccess = (roles = [], user = {}) => {
+  return roles.includes(user.roleName);
+};
+const requiredRole = ["security","security Manager","admin"];
+
 // create
+
 const createVisitor = async (req, res) => {
   try {
+    let loginUser = req.user;
+    console.log(loginUser);
+    let access = hasAccess(requiredRole, loginUser);
+    if (!access) {
+      return errorHandler(req, res, { message: "invalid" }, 500);
+    }
+
     const Visitor = new visitor();
     const Product = new product();
 
@@ -25,14 +39,13 @@ const createVisitor = async (req, res) => {
     Visitor.vehicleId = req.body.vehicleId;
     Visitor.empId = req.body.empId;
     Visitor.date = new Date(req.body.date);
-    // Visitor.visitorIDPhoto = req.body.visitorIDPhoto;
+    Visitor.visitorIDPhoto = req.body.visitorIDPhoto;
     // console.log(visitorIDPhoto)
     Visitor.createdBy = req.body.createdBy;
     Visitor.updatedBy = req.body.updatedBy;
     Visitor.productDetails = req.body.productDetails;
-    console.log(Visitor.approvedBy);
     let result = await Visitor.save();
-    console.log(result);
+    
     successHandler(req, res, {
       data: result,
       message: "visitor creation success",
@@ -48,18 +61,22 @@ const joinVisitor = async (req, res) => {
       {
         $lookup: {
           from: "empdetails",
-          localField: "empId",
+          localField: "createdBy",
           foreignField: "_id",
-          as: "employeeDetails",
+          as: "createdBy",
         },
+      },{
+        $unwind: '$createdBy'
       },
       {
         $lookup: {
           from: "empdetails",
           localField: "approvedBy",
           foreignField: "_id",
-          as: "employee",
+          as: "ApprovedBy",
         },
+      },{
+        $unwind: "$ApprovedBy"
       },
       {
         $lookup: {
@@ -68,6 +85,8 @@ const joinVisitor = async (req, res) => {
           foreignField: "_id",
           as: "status",
         },
+      },{
+        $unwind: "$status"
       },
       {
         $lookup: {
@@ -76,7 +95,19 @@ const joinVisitor = async (req, res) => {
           foreignField: "_id",
           as: "vehicle",
         },
+      },{
+        $unwind: "$vehicle"
       },
+      {
+        $lookup: {
+          from: "products",
+          localField: "productDetails",
+          foreignField: "_id",
+          as: "product",
+        },
+      },{
+        $unwind: "$product"
+      }
     ]);
     successHandler(req, res, { data: result, message: "success" });
   } catch (err) {
@@ -114,12 +145,11 @@ const getVisitor = async (req, res) => {
 };
 
 //update
+
 const updateVisitor = async (req, res) => {
-  console.log("update");
   try {
     const id = req.body._id;
-    console.log(id);
-    let result = await visitor.updateOne({ _id: id }, req.body);
+    let result = await visitor.findByIdAndUpdate({ _id: id }, req.body);
     successHandler(req, res, { Employee: result, message: "update" });
   } catch (err) {
     errorHandler(req, res, err, 500);
@@ -140,14 +170,16 @@ const deleteVisitor = async (req, res) => {
 };
 
 //search
+
 const searchVisitor = async (req,res) => {
   try{
-    const data = req.body;
+    const data = req.body.name;
+    const data2 = req.body.email;
     let result = await visitor.find(
       {
         $or: [
           { name: { $regex: `${data}`}},
-          { email: { $regex: `${data}`}},
+          { email: { $regex: `${data2}`}},
         ],
       }
     );
